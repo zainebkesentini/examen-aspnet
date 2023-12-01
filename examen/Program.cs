@@ -1,5 +1,10 @@
+using examen.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+//DbContext configuration
+builder.Services.AddDbContext<AppDbContext>( options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -25,3 +30,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+// Seed database
+AppDbInitializer.Seed(app);
